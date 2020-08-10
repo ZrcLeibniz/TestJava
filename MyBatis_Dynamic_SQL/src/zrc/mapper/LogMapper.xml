@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="zrc.mapper.LogMapper">
+	<!-- <select id="selByAccInAccOut" resultType="zrc.pojo.Log">
+		select * from log where 1=1
+		<if test="accin!=null and accin!=''">
+			and accin=#{accin}
+		</if>
+		<if test="accout!=null and accout!=''">
+			and accout=#{accout}
+		</if>
+	</select> -->
+	<!-- 可以对条件进行动态变化，0个参数/1个参数/2个参数都可以进行查询 -->
+	<select id="selByAccInAccOut" resultType="zrc.pojo.Log">
+		select * from log
+		<where>
+			<if test="accin!=null and accin!=''">
+				and accin=#{accin}
+			</if>
+			<if test="accout!=null and accout!=''">
+				and accout=#{accout}
+			</if>
+		</where>
+	</select> 
+	<!-- 只要有一个条件成立，其余的都不执行 -->
+	<!-- 
+	 <select id="selByAccInAccOut" resultType="zrc.pojo.Log">
+		select * from log
+		<where>
+			<choose>
+				<when test="accin!=null and accin!=''">
+					and accin=#{accin}
+				</when>
+				<when test="accout!=null and accout!=''">
+					and accout=#{accout}
+				</when>
+			</choose>
+		</where>
+	</select>  
+	-->
+	<update id="upd" parameterType="zrc.pojo.Log">
+		update log 
+		<set>
+			<if test="accIn!=null and accIn!=''">
+				accin=#{accIn},
+			</if>
+			<if test="accOut!=null and accOut!=''">
+				accout=#{accOut},
+			</if>
+		</set>
+		where id=#{id}
+	</update>
+	<select id="selIn" parameterType="list" resultType="zrc.pojo.Log">
+		select * from log  
+		<where>
+			id in
+		<foreach collection="list" item="item" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+		</where>
+	</select>
+	<insert id="ins" parameterType="list">
+		insert into log values
+		<trim suffixOverrides=",">
+			<foreach collection="list" item="log">
+				(default,#{log},222,3),
+			</foreach>
+		</trim>
+	</insert>
+</mapper>
