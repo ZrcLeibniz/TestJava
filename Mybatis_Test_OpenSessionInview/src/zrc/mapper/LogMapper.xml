@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="zrc.mapper.LogMapper">
+	<select id="selAll" resultType="zrc.pojo.Log">
+		select * from log
+	</select>
+	<select id="selLog" resultType="zrc.pojo.Log">
+		select * from log
+		<where>
+			<if test="accIn!=null and accIn!=''">
+				and accIn=#{accIn}
+			</if>
+			<if test="accOut!=null and accOut!=''">
+				and accOut=#{accOut}
+			</if>
+		</where>
+	</select>
+</mapper>
