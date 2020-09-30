@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="zrc.mapper.TeacherMapper">
+	<resultMap type="zrc.pojo.Teacher" id="mymap">
+		<id column="id" property="id"/>
+		<result column="name" property="name"/>
+		<collection property="list" ofType="zrc.pojo.Student" select="zrc.mapper.StudentMapper.selById" column="id"></collection>
+	</resultMap>
+	<select id="selAll" resultMap="mymap">
+		select * from teacher
+	</select>
+	<select id="selById" resultType="zrc.pojo.Teacher" parameterType="int">
+		select * from teacher where id=#{0}
+	</select>
+</mapper>
+
